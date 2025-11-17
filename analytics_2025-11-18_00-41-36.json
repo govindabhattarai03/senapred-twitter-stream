@@ -1,0 +1,26 @@
+{
+  "generated_at": "2025-11-17T23:41:36.561883+00:00",
+  "counts_by_location": {
+    "Antofagasta": 4,
+    "La Serena": 8,
+    "Iquique": 9,
+    "Temuco": 5,
+    "Santiago": 4,
+    "Puerto Montt": 7,
+    "Valparaíso": 5,
+    "Concepción": 3
+  },
+  "counts_by_keyword": {
+    "alerta": 4,
+    "emergencia": 9,
+    "incendio": 8,
+    "tsunami": 6,
+    "lluvias": 7,
+    "terremoto": 6,
+    "sismo": 3,
+    "evacuación": 2
+  },
+  "counts_by_hour": {
+    "2025-11-16 23:00": 45
+  },
+  "_id": 
