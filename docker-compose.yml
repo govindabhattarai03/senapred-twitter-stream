@@ -1,0 +1,46 @@
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  # Streams synthetic emergency tweets, so the demo works without an X API key.
+  generator:
+    build: .
+    command: python -m pipeline.ingest_synthetic
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  # Live tweets from the X API. Start with: docker compose --profile live up
+  x-ingest:
+    build: .
+    command: python -m pipeline.ingest_x_api
+    env_file: .env
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+    depends_on:
+      mongo:
+        condition: service_healthy
+    profiles: ["live"]
+
+volumes:
+  mongo-data:
